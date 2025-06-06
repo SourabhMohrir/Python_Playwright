@@ -8,25 +8,24 @@ ordersPayload = {
         }
     ]
 }
-loginPayload = {"userEmail": "srm@yahoo.com", "userPassword": "Sortest@123"}
 
 class APIUtils:
 
-    def getToken(self,playwright:Playwright):
+    def getToken(self,playwright:Playwright,user_credentials):
+        userName = user_credentials['userEmail']
+        userPassword = user_credentials['userPassword']
         api_request_context = playwright.request.new_context(base_url="https://rahulshettyacademy.com/")
-        response = api_request_context.post("api/ecom/auth/login",data=loginPayload,headers={"content-type": "application/json"})
+        response = api_request_context.post("api/ecom/auth/login",data={"userEmail": userName, "userPassword": userPassword},headers={"content-type": "application/json"})
         assert response.ok
-        print(response.json())
         responseBody = response.json()
         token = responseBody['token']
         return token
 
-    def createOrder(self, playwright:Playwright):
-       token = self.getToken(playwright)
+    def createOrder(self, playwright:Playwright, user_credentials):
+       token = self.getToken(playwright,user_credentials)
        api_request_context = playwright.request.new_context(base_url="https://rahulshettyacademy.com/")
        response = api_request_context.post("api/ecom/order/create-order", data= ordersPayload,
                                 headers={"Authorization":token, "Content-Type": "application/json"})
-       print(response.json())
        responseBody = response.json()
        productOrderId = responseBody["orders"][0]
        return productOrderId
