@@ -11,3 +11,6 @@ class OrderHistoryPage:
         orderdetail = OrderDetailsPage(self.page)
         return orderdetail
 
+    def clickOnFirstViewButton(self):
+        self.page.get_by_role("button", name="View").first.click()
+
