@@ -16,7 +16,7 @@ with open('playwright/data/credentials.json') as f:
 
 @pytest.mark.API
 @pytest.mark.parametrize('user_credentials', user_credentials)
-def test_redriectingToDifferentOrder(playwright: Playwright, browserInstance, user_credentials):
+def test_redriectingToDifferentOrder(browserInstance, user_credentials):
     browserInstance.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-details?id=*",intercept_request)
     userName = user_credentials['userEmail']
     userPassword = user_credentials['userPassword']

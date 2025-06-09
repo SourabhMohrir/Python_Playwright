@@ -14,7 +14,7 @@ with open('playwright/data/credentials.json') as f:
 
 @pytest.mark.API
 @pytest.mark.parametrize('user_credentials', user_credentials)
-def test_no_orders_in_page(playwright: Playwright, browserInstance, user_credentials):
+def test_no_orders_in_page(browserInstance, user_credentials):
     userName = user_credentials['userEmail']
     userPassword = user_credentials['userPassword']
     loginPage = LoginPage(browserInstance)
@@ -23,4 +23,3 @@ def test_no_orders_in_page(playwright: Playwright, browserInstance, user_credent
     dashboardPage = loginPage.login(userName, userPassword)
     dashboardPage.selectOrdersNavLink()
     expect(browserInstance.locator(".mt-4")).to_contain_text("You have No Orders to show at this time. Please Visit Back Us")
-
