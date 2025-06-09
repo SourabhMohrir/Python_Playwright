@@ -14,11 +14,11 @@ def user_credentials(request):
 def browserInstance(playwright:Playwright, request):
     browser_name = request.config.getoption("browser_name")
     if browser_name == "chrome":
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=True)
     elif browser_name == "firefox":
-        browser = playwright.firefox.launch(headless=False)
+        browser = playwright.firefox.launch(headless=True)
     elif browser_name == "webkit":
-        browser = playwright.webkit.launch(headless=False)
+        browser = playwright.webkit.launch(headless=True)
     else:
         raise ValueError(f"Unsupported browser: {browser_name}")
     context = browser.new_context()
