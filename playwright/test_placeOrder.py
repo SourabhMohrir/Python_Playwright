@@ -7,12 +7,8 @@ from utils.apiBase import APIUtils
 from pageObjects.login import LoginPage
 
 # json file ->util->access into test
-with open('playwright/data/credentials.json') as f:
-    test_data = json.load(f)
-    user_credentials_list = test_data['user_credentials']
 
 @pytest.mark.API
-@pytest.mark.parametrize('user_credentials', user_credentials_list)
 def test_e2e_web_api(playwright: Playwright, browserInstance, user_credentials):
     userName = user_credentials['userEmail']
     userPassword = user_credentials['userPassword']

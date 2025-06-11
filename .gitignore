@@ -1,3 +1,11 @@
-/test-results/
-/report.html
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test reports
+report.html
+.pytest_cache/
+.env
 *.pyc

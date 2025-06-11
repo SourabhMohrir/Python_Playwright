@@ -25,8 +25,16 @@ This is an example project demonstrating browser automation and testing using [P
 2. Install dependencies from requirements.txt:
    ```bash
    pip install -r requirements.txt
-   playwright install
+   playwright installSet up environment variables by creating a .env file in project root:
+
+
+3. USER_EMAIL_1=your_email@example.com
+   USER_PASSWORD_1=your_password
+   
+4. Add .env to .gitignore:
+   echo ".env" >> .gitignore
    ```
+
 
 ## How to Run the Tests
 
@@ -40,6 +48,14 @@ Or to run a specific test file:
 
 ```bash
 pytest playwright/test_loginValidation.py
+
+Environment Variables
+The project uses the following environment variables for credentials:
+
+
+USER_EMAIL_1: Your login email
+USER_PASSWORD_1: Your login password
+These should be set in the .env file.
 ```
 
 ## Notes

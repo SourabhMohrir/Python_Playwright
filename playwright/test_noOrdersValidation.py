@@ -8,12 +8,7 @@ fakeResponse = {"data":[],"message":"No Orders"}
 def intercept_response(route):
     route.fulfill(json=fakeResponse)
 
-with open('playwright/data/credentials.json') as f:
-    test_data = json.load(f)
-    user_credentials = test_data['user_credentials']
-
 @pytest.mark.API
-@pytest.mark.parametrize('user_credentials', user_credentials)
 def test_no_orders_in_page(browserInstance, user_credentials):
     userName = user_credentials['userEmail']
     userPassword = user_credentials['userPassword']
