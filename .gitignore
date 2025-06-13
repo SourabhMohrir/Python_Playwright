@@ -8,4 +8,5 @@ __pycache__/
 report.html
 .pytest_cache/
 .env
+*.pyc__pycache__/
 *.pyc
