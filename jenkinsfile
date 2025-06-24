@@ -9,10 +9,15 @@ pipeline {
     PLAYWRIGHT_USER = credentials('playwright-user')
   }
 
-  stages {
+stages {
     stage('Run Tests') {
       steps {
-        sh 'ci/run_tests.sh'
+        withEnv([
+          "USER_EMAIL_1=${PLAYWRIGHT_USER_USR}",
+          "USER_PASSWORD_1=${PLAYWRIGHT_USER_PSW}"
+        ]) {
+          sh 'ci/run_tests.sh'
+        }
       }
     }
   }
