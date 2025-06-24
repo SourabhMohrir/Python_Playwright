@@ -16,7 +16,7 @@ pipeline {
           "USER_EMAIL_1=${PLAYWRIGHT_CRED_USR}",
           "USER_PASSWORD_1=${PLAYWRIGHT_CRED_PSW}"
         ]) {
-          sh './ci/run_tests.sh'
+          sh './ci/test_runs.sh'
         }
       }
     }
