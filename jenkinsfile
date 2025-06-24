@@ -9,24 +9,24 @@ pipeline {
     PLAYWRIGHT_CRED = credentials('87210547-55f4-4ace-8479-bcf9ed6610b1')
   }
 
-stages {
+  stages {
     stage('Run Tests') {
       steps {
         withEnv([
-          "USER_EMAIL_1=${PLAYWRIGHT_USER_USR}",
-          "USER_PASSWORD_1=${PLAYWRIGHT_USER_PSW}"
+          "USER_EMAIL_1=${PLAYWRIGHT_CRED_USR}",
+          "USER_PASSWORD_1=${PLAYWRIGHT_CRED_PSW}"
         ]) {
-          sh 'ci/run_tests.sh'
+          sh './ci/run_tests.sh'
         }
       }
     }
   }
 
-post {
-  always {
-    node {
-      archiveArtifacts artifacts: 'playwright-report/**/*', allowEmptyArchive: true
+  post {
+    always {
+      node {
+        archiveArtifacts artifacts: 'playwright-report/**/*', allowEmptyArchive: true
+      }
     }
   }
-}
 }
