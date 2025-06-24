@@ -6,9 +6,7 @@ pipeline {
   }
 
   environment {
-    // Store your Jenkins credentials beforehand under this ID
-    USER_EMAIL_1 = credentials('playwright-user')
-    USER_PASSWORD_1 = credentials('playwright-user')
+    PLAYWRIGHT_USER = credentials('playwright-user')
   }
 
   stages {
