@@ -25,7 +25,7 @@ pipeline {
 
     stage('Install Dependencies & Browsers') {
       steps {
-        dir('PythonPlaywright') {
+        {
           sh 'npm install'
           sh 'npx playwright install --with-deps'
         }
