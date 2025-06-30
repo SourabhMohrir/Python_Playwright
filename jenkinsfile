@@ -1,7 +1,6 @@
 pipeline {
   agent any
 
-  // 1️⃣ Declare a choice parameter with API and regression options
   parameters {
     choice(
       name: 'SUITE',
