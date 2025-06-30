@@ -1,28 +1,24 @@
 pipeline {
   agent any
-
-  parameters {
-    choice(name: 'SUITE', choices: "API\nregression", description: 'Select test suite')
-  }
-
-  tools { nodejs 'Node 24' }
-
+  parameters { /* ... */ }
   environment {
-    PLAYWRIGHT_CRED = credentials('87210547-55f4-4ace-8479-bcf9ed6610b1')
+    PLAYWRIGHT_CRED = credentials('...')
   }
 
   stages {
-    stage('Install Dependencies & Browsers') {
+    stage('Setup Node') {
+      steps {
+        script {
+          def nodeHome = tool name: 'node24', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+          env.PATH = "${nodeHome}/bin:${env.PATH}"
+        }
+      }
+    }
+    stage('Install & Test') {
       steps {
         dir('PythonPlaywright') {
           sh 'npm ci'
           sh 'npx playwright install --with-deps'
-        }
-      }
-    }
-    stage('Run Tests') {
-      steps {
-        dir('PythonPlaywright') {
           withEnv([
             "USER_EMAIL_1=${PLAYWRIGHT_CRED_USR}",
             "USER_PASSWORD_1=${PLAYWRIGHT_CRED_PSW}"
