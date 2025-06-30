@@ -7,7 +7,9 @@ python3 -m venv venv
 
 echo "Installing requirements and Playwright browsers"
 pip install -r requirements.txt
-playwright install
+
+# ✅ Important: include system dependencies
+playwright install --with-deps
 
 echo "Running $SUITE suite"
 pytest -m "$SUITE" playwright/
