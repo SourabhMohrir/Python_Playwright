@@ -2,11 +2,7 @@ pipeline {
   agent any
 
   parameters {
-    choice(
-      name: 'SUITE',
-      choices: ['API', 'regression'],
-      description: 'Select test suite to run'
-    )
+    choice(name: 'SUITE', choices: ['API', 'regression'], description: 'Select test suite')
   }
 
   environment {
@@ -14,20 +10,10 @@ pipeline {
   }
 
   stages {
-    stage('Setup Node') {
-      steps {
-        script {
-          def nodeHome = tool name: 'node24', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-          env.PATH = "${nodeHome}/bin:${env.PATH}"
-        }
-      }
-    }
-
     stage('Install Dependencies & Browsers') {
       steps {
-          sh 'npm install'
-          sh 'npx playwright install --with-deps'
-        }
+        sh 'npm install'
+        sh 'npx playwright install --with-deps'
       }
     }
 
