@@ -1,8 +1,17 @@
 pipeline {
   agent any
-  parameters { /* ... */ }
+
+  // 1️⃣ Declare a choice parameter with API and regression options
+  parameters {
+    choice(
+      name: 'SUITE',
+      choices: ['API', 'regression'],
+      description: 'Select test suite to run'
+    )
+  }
+
   environment {
-    PLAYWRIGHT_CRED = credentials('...')
+    PLAYWRIGHT_CRED = credentials('87210547-55f4-4ace-8479-bcf9ed6610b1')
   }
 
   stages {
@@ -14,14 +23,24 @@ pipeline {
         }
       }
     }
-    stage('Install & Test') {
+
+    stage('Install Dependencies & Browsers') {
       steps {
         dir('PythonPlaywright') {
           sh 'npm ci'
           sh 'npx playwright install --with-deps'
+        }
+      }
+    }
+
+    stage('Run Tests') {
+      steps {
+        dir('PythonPlaywright') {
+          echo "🔹 Running suite: ${params.SUITE}"
           withEnv([
             "USER_EMAIL_1=${PLAYWRIGHT_CRED_USR}",
-            "USER_PASSWORD_1=${PLAYWRIGHT_CRED_PSW}"
+            "USER_PASSWORD_1=${PLAYWRIGHT_CRED_PSW}",
+            "SUITE=${params.SUITE}"
           ]) {
             sh './ci/test_runs.sh'
           }
