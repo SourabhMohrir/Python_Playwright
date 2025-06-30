@@ -5,18 +5,30 @@ pipeline {
     choice(name: 'SUITE', choices: "API\nregression", description: 'Select test suite')
   }
 
+  tools { nodejs 'Node 24' }
+
   environment {
     PLAYWRIGHT_CRED = credentials('87210547-55f4-4ace-8479-bcf9ed6610b1')
   }
 
   stages {
+    stage('Install Dependencies & Browsers') {
+      steps {
+        dir('PythonPlaywright') {
+          sh 'npm ci'
+          sh 'npx playwright install --with-deps'
+        }
+      }
+    }
     stage('Run Tests') {
       steps {
-        withEnv([
-          "USER_EMAIL_1=${PLAYWRIGHT_CRED_USR}",
-          "USER_PASSWORD_1=${PLAYWRIGHT_CRED_PSW}"
-        ]) {
-          sh './ci/test_runs.sh'
+        dir('PythonPlaywright') {
+          withEnv([
+            "USER_EMAIL_1=${PLAYWRIGHT_CRED_USR}",
+            "USER_PASSWORD_1=${PLAYWRIGHT_CRED_PSW}"
+          ]) {
+            sh './ci/test_runs.sh'
+          }
         }
       }
     }
@@ -24,9 +36,7 @@ pipeline {
 
   post {
     always {
-      node('')  {
-        archiveArtifacts artifacts: 'playwright-report/**/*', allowEmptyArchive: true
-      }
+      archiveArtifacts artifacts: 'PythonPlaywright/playwright-report/**/*', allowEmptyArchive: true
     }
   }
 }
